@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminar Teknologi Nasional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            background-color: rgb(255, 255, 255);
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .succes {
+            color: green;
+            font-size: 1em;
+        }
+        .brand-logo {
+            margin-left: 20px;
+        }
+        .toggle-sidebar {
+            cursor: pointer;
+        }
+        @media (max-width: 992px) {
+            .sidenav {
+                left: 0 !important;
+                right: auto !important;
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="blue darken-3">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">IT PNM SUMMIT</a>
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#" class="toggle-sidebar"><i class="material-icons">menu</i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+               </div>
+                <a href="#user"><img class="circle" src="pnm.png"></a>
+                <a href="#name"><span class="white-text name">John Doe</span></a>
+                <a href="#email"><span class="white-text email">lebdasaritanaya@gmail.com</span></a>
+            </div>
+        </li>
+        <li><a href="#"><i class="material-icons">info</i>Info</a></li>
+        <li><a href="#"><i class="material-icons">contacts</i>Contact</a></li>
+    </ul>
+
+    <header class="container center-align">
+        <h1>Seminar Teknologi Nasional</h1>
+        <p>Silakan isi formulir di bawah ini untuk melakukan registrasi.</p>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m8 offset-m2">
+                <form id="registrationForm">
+                    <div class="input-field">
+                        <input type="text" id="fullName" required>
+                        <label for="fullName">Nama Lengkap</label>
+                        <span id="nameError" class="error"></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="email" id="email" required>
+                        <label for="email">Email</label>
+                        <span id="emailError" class="error"></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="password" required>
+                        <label for="password">Password</label>
+                        <span id="passwordError" class="error"></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="confirmPassword" required>
+                        <label for="confirmPassword">Konfirmasi Password</label>
+                        <span id="confirmPasswordError" class="error"></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="date" id="dob" required>
+                        <label for="dob">Tanggal Lahir</label>
+                        <span id="dobError" class="error"></span>
+                    </div>
+                    <div class="input-field">
+                        <input type="tel" id="phone" pattern="[0-9]{10,12}" required>
+                        <label for="phone">Nomor HP</label>
+                        <span id="phoneError" class="error"></span>
+                    </div>
+                    <button type="submit" class="btn blue darken-3" id="submitBtn" disabled>Daftar</button>
+                    <div id="formFeedback" class="mt-3"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer blue darken-3">
+        <div class="container center-align">
+            <p>2025 IT PNM Summit</p>
+        </div>
+    </footer>
+    <script>
+       document.addEventListener('DOMContentLoaded', function () {
+            var sidenav = document.getElementById('slide-out');
+
+            function initSidenav() {
+                var edge = window.innerWidth > 992 ? 'right' : 'left';
+
+                var instance = M.Sidenav.getInstance(sidenav);
+                if (instance) instance.destroy();
+
+                M.Sidenav.init(sidenav, { edge: edge });
+            }
+
+            initSidenav();
+
+            window.addEventListener('resize', function () {
+                setTimeout(initSidenav, 200);
+            });
+
+            document.querySelector('.toggle-sidebar').addEventListener('click', function () {
+                var instance = M.Sidenav.getInstance(sidenav);
+                instance.open();
+            });
+
+            var elems = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(elems);
+        });
+            const form = document.getElementById('registrationForm');
+            const submitBtn = document.getElementById('submitBtn');
+    
+            form.addEventListener('input', validateForm);
+    
+            function validateForm() {
+                let valid = true;
+    
+                const fullName = document.getElementById('fullName').value;
+                if (fullName.length < 3) {
+                    document.getElementById('nameError').innerText = 'Nama lengkap minimal 3 karakter';
+                    valid = false;
+                } else {
+                    document.getElementById('nameError').innerText = '';
+                }
+    
+                const email = document.getElementById('email').value;
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    document.getElementById('emailError').innerText = 'Format email tidak valid';
+                    valid = false;
+                } else {
+                    document.getElementById('emailError').innerText = '';
+                }
+    
+                const password = document.getElementById('password').value;
+                if (password.length < 8) {
+                    document.getElementById('passwordError').innerText = 'Password minimal 8 karakter';
+                    valid = false;
+                } else {
+                    document.getElementById('passwordError').innerText = '';
+                }
+    
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                if (password !== confirmPassword) {
+                    document.getElementById('confirmPasswordError').innerText = 'Password tidak cocok';
+                    valid = false;
+                } else {
+                    document.getElementById('confirmPasswordError').innerText = '';
+                }
+    
+                const dob = new Date(document.getElementById('dob').value);
+                if (dob.getFullYear() > 2006) {
+                    document.getElementById('dobError').innerText = 'Tanggal lahir tidak boleh lebih dari tahun 2006';
+                    valid = false;
+                } else {
+                    document.getElementById('dobError').innerText = '';
+                }
+    
+                const phone = document.getElementById('phone').value;
+                if (!/^[0-9]{10,12}$/.test(phone)) {
+                    document.getElementById('phoneError').innerText = 'Nomor HP tidak valid';
+                    valid = false;
+                } else {
+                    document.getElementById('phoneError').innerText = '';
+                }
+    
+                submitBtn.disabled = !valid;
+            }
+    
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                if (submitBtn.disabled) return;
+    
+                document.getElementById('formFeedback').innerText = 'Registrasi berhasil!';
+                document.getElementById('formFeedback').classList.add('success');
+                form.reset();
+                validateForm();
+            });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.sidenav');
+            M.Sidenav.init(elems);
+        });
+    </script>
+</body>
+</html>
